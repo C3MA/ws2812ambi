@@ -31,25 +31,36 @@ function logic()
 		if topic== mqttbasetopic .."_an" then
 			if data=="ON" then
 				anaus = "ON"
-				ws2812.write(string.char(gruen,rot,blau):rep(300))
+				ledbuffer:fill(gruen,rot,blau)
+				ws2812.write(ledbuffer)
 				print("An!")
 			else
 				anaus = "OFF"
-				ws2812.write(string.char(0,0,0):rep(300))
+				ledbuffer:fill(0,0,0)
+				ws2812.write(ledbuffer)
 				print("Aus!")
 			end
 			elseif topic== mqttbasetopic .. "_rot" then
 				rot=tonumber(data)
 				print("rot: " .. rot)
-				if anaus == "ON" then ws2812.write(string.char(gruen,rot,blau):rep(300)) end
+				if anaus == "ON" then
+					ledbuffer:fill(gruen,rot,blau)
+					ws2812.write(ledbuffer)
+				end
 				elseif topic== mqttbasetopic .. "_gruen" then
 					gruen=tonumber(data)
 					print("gruen: " .. gruen)
-					if anaus == "ON" then ws2812.write(string.char(gruen,rot,blau):rep(300)) end
+					if anaus == "ON" then
+						ledbuffer:fill(gruen,rot,blau)
+						ws2812.write(ledbuffer)
+					end
 					elseif topic== mqttbasetopic .. "_blau" then
 						blau=tonumber(data)
 						print("blau: " .. blau)
-						if anaus == "ON" then ws2812.write(string.char(gruen,rot,blau):rep(300)) end
+						if anaus == "ON" then
+							ledbuffer:fill(gruen,rot,blau)
+							ws2812.write(ledbuffer)
+						end
 					end
 					end)
 		m:connect(mqttserver,1883,0)
@@ -57,14 +68,15 @@ end
 
 	--init_logic run once after successfully established network-connection 
 function init_logic()
-
-			-- start webserver
-			dofile("webserver.lc")
-			startWebServer()
-			--set GPIO5 as output (for relais)
-			gpio.mode(5,gpio.OUTPUT)
-			gpio.write(5,gpio.LOW)
-			logic()
+	--initialize WS2812-Buffer for 300 LEDs
+	ledbuffer=ws2812.newBuffer(300,3);
+	-- start webserver
+	dofile("webserver.lc")
+	startWebServer()
+	--set GPIO5 as output (for relais)
+	gpio.mode(5,gpio.OUTPUT)
+	gpio.write(5,gpio.LOW)
+	logic()
 end
 
 

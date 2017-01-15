@@ -66,6 +66,12 @@ http://ip/strip=off
 http://ip/strip=rgb
 
 
+http://ip/ledvalue?1=0,255,0&2=255,0,0&3=0,255,255   .... and so on.... Switch individual leds by submitting the led-index and values in the URL.
+
+Did not try out yet, how many LEDs can be switchd in one request....
+
+
+
 Control Relais or other on GPIO5
 http://ip/switch=on
 
