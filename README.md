@@ -1,8 +1,7 @@
 # WS2812Ambi
 
 
-This is a small application for the ESP8266 running NodeMCU to control a WS2812 LED strip via MQTT
-
+This is a small application for the ESP8266 running NodeMCU to control a WS2812 LED strip via MQTT or via URL-call
 
 ##Installation
 
@@ -20,7 +19,7 @@ This app was tested with nodemcu-release 1.5.4.1
 
 Connect your WS2812 LED strip data-pin with GPIO2 and with +5V and GND
 
-##Usage
+##Usage with MQTT
 /room1/ledstrip_blue
 when first booting, the Nodemcu will compile the LUA files to LC files for better performance.
 
@@ -42,6 +41,20 @@ so, if you chosse "/room1/ledstrip" as mqttbasetopic, then you need the followin
 /room1/ledstrip_blue
 /room1/ledstrip_green
 /room1/ledstrip_red
+
+##Usage with URL-functions
+
+You can use the following convenient URL-functions:
+
+Control LED-Strip on GPIO2
+http://ip/strip=red
+http://ip/strip=blue
+http://ip/strip=green
+http://ip/strip=off
+
+Control Relais or other on GPIO5
+http://ip/switch=on
+http://ip/switch=off
 
 ##NodeMCU CLI access
 
