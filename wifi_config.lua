@@ -31,25 +31,25 @@ function logic()
 		if topic== mqttbasetopic .."_an" then
 			if data=="ON" then
 				anaus = "ON"
-				ws2812.write(string.char(gruen,rot,blau):rep(60))
+				ws2812.write(string.char(gruen,rot,blau):rep(300))
 				print("An!")
 			else
 				anaus = "OFF"
-				ws2812.write(string.char(0,0,0):rep(120))
+				ws2812.write(string.char(0,0,0):rep(300))
 				print("Aus!")
 			end
 			elseif topic== mqttbasetopic .. "_rot" then
 				rot=tonumber(data)
 				print("rot: " .. rot)
-				if anaus == "ON" then ws2812.write(string.char(gruen,rot,blau):rep(60)) end
+				if anaus == "ON" then ws2812.write(string.char(gruen,rot,blau):rep(300)) end
 				elseif topic== mqttbasetopic .. "_gruen" then
 					gruen=tonumber(data)
 					print("gruen: " .. gruen)
-					if anaus == "ON" then ws2812.write(string.char(gruen,rot,blau):rep(60)) end
+					if anaus == "ON" then ws2812.write(string.char(gruen,rot,blau):rep(300)) end
 					elseif topic== mqttbasetopic .. "_blau" then
 						blau=tonumber(data)
 						print("blau: " .. blau)
-						if anaus == "ON" then ws2812.write(string.char(gruen,rot,blau):rep(60)) end
+						if anaus == "ON" then ws2812.write(string.char(gruen,rot,blau):rep(300)) end
 					end
 					end)
 		m:connect(mqttserver,1883,0)
@@ -61,6 +61,9 @@ function init_logic()
 			-- start webserver
 			dofile("webserver.lc")
 			startWebServer()
+			--set GPIO5 as output (for relais)
+			gpio.mode(5,gpio.OUTPUT)
+			gpio.write(5,gpio.LOW)
 			logic()
 end
 
