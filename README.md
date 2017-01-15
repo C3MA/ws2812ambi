@@ -51,6 +51,7 @@ http://ip/strip=red
 http://ip/strip=blue
 http://ip/strip=green
 http://ip/strip=off
+http://ip/strip=rgb
 
 Control Relais or other on GPIO5
 http://ip/switch=on

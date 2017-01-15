@@ -20,7 +20,7 @@ function startWebServer()
 srv=net.createServer(net.TCP)
 srv:listen(80,function(conn)
 	conn:on("receive", function(conn,payload)
-	ssid, password, bssid_set, bssid = wifi.sta.getconfig()
+		ssid, password, bssid_set, bssid = wifi.sta.getconfig()
 		if (payload:find("GET /switch=on") ~= nil) then
 			--here is code for handling http request from a web-browser
 			gpio.write(1,gpio.HIGH)
@@ -45,60 +45,65 @@ srv:listen(80,function(conn)
 							ws2812.write(string.char(255,0,0):rep(300))
 							sendWebPage(conn,1)
 							conn:on("sent", function(conn) conn:close() end)
-							elseif (payload:find("GET /strip=off") ~= nil) then
+							elseif (payload:find("GET /strip=rgb") ~= nil) then
 								--here is code for handling http request from a web-browser
-								ws2812.write(string.char(0,0,0):rep(300))
+								ws2812.write(string.char(255,0,0,255,0,0,255,0,0,0,255,0,0,255,0,0,255,0,0,0,255,0,0,255,0,0,255):rep(35))
 								sendWebPage(conn,1)
-								conn:on("sent", function(conn) conn:close() end)		
-								elseif (payload:find("GET /") ~= nil) then
+								conn:on("sent", function(conn) conn:close() end)
+								elseif (payload:find("GET /strip=off") ~= nil) then
+									--here is code for handling http request from a web-browser
+									ws2812.write(string.char(0,0,0):rep(300))
 									sendWebPage(conn,1)
-									conn:on("sent", function(conn) conn:close() end)
-									else if (payload:find("POST /") ~=nil) then
-										--code for handling the POST-request (updating settings)
-										_, postdatastart = payload:find("\r\n\r\n")
-										--Next lines catches POST-requests without POST-data....
-										if postdatastart==nil then postdatastart = 1 end
-										postRequestData=string.sub(payload,postdatastart+1)
-										local _POST = {}
-										for i, j in string.gmatch(postRequestData, "(%w+)=([^&]+)&*") do
-											_POST[i] = j
-										end
-										postRequestData=nil
-										if ((_POST.ssid~=nil) and (_POST.password~=nil) and (_POST.mqttserver~=nil) and (_POST.mqttbasetopic~=nil)) then
-											tmr.stop(1)
-											mqtttopic,l=string.gsub(_POST.mqttbasetopic,"%%2F","/")
-											save_wifi_param(_POST.ssid,_POST.password,_POST.mqttserver,mqtttopic)
-											sendWebPage(conn,2)
+									conn:on("sent", function(conn) conn:close() end)		
+									elseif (payload:find("GET /") ~= nil) then
+										sendWebPage(conn,1)
+										conn:on("sent", function(conn) conn:close() end)
+										else if (payload:find("POST /") ~=nil) then
+											--code for handling the POST-request (updating settings)
+											_, postdatastart = payload:find("\r\n\r\n")
+											--Next lines catches POST-requests without POST-data....
+											if postdatastart==nil then postdatastart = 1 end
+											postRequestData=string.sub(payload,postdatastart+1)
+											local _POST = {}
+											for i, j in string.gmatch(postRequestData, "(%w+)=([^&]+)&*") do
+												_POST[i] = j
+											end
+											postRequestData=nil
+											if ((_POST.ssid~=nil) and (_POST.password~=nil) and (_POST.mqttserver~=nil) and (_POST.mqttbasetopic~=nil)) then
+												tmr.stop(1)
+												mqtttopic,l=string.gsub(_POST.mqttbasetopic,"%%2F","/")
+												save_wifi_param(_POST.ssid,_POST.password,_POST.mqttserver,mqtttopic)
+												sendWebPage(conn,2)
+											else
+												ssid, password, bssid_set, bssid = wifi.sta.getconfig()
+												sendWebPage(conn,1)
+												conn:on("sent", function(conn) conn:close() end)
+											end
 										else
-											ssid, password, bssid_set, bssid = wifi.sta.getconfig()
-											sendWebPage(conn,1)
-											conn:on("sent", function(conn) conn:close() end)
+											--here is code, if the connection is not from a webbrowser, i.e. telnet or nc
+											global_c=conn
+											function s_output(str)
+												if(global_c~=nil)
+												then global_c:send(str)
+											end
 										end
-									else
-										--here is code, if the connection is not from a webbrowser, i.e. telnet or nc
-										global_c=conn
-										function s_output(str)
-											if(global_c~=nil)
-											then global_c:send(str)
-										end
-									end
-									node.output(s_output, 0)
-									global_c:on("receive",function(c,l)
-										node.input(l)
-										end)
-										global_c:on("disconnection",function(c)
-											node.output(nil)
-											global_c=nil
+										node.output(s_output, 0)
+										global_c:on("receive",function(c,l)
+											node.input(l)
 											end)
-											print("Welcome to WS2812Ambi CLI")
+											global_c:on("disconnection",function(c)
+												node.output(nil)
+												global_c=nil
+												end)
+												print("Welcome to WS2812Ambi CLI")
      
+											end
 										end
-									end
-									end)
+										end)
     
-									conn:on("disconnection", function(c)
-										node.output(nil)        -- un-register the redirect output function, output goes to serial
-											end)
-											end)
+										conn:on("disconnection", function(c)
+											node.output(nil)        -- un-register the redirect output function, output goes to serial
+												end)
+												end)
 
-										end
+											end
