@@ -31,16 +31,24 @@ If it can connect to the wifi, it will disply its IP-address on UART. With a web
 On your mqtt-server have these topics ready:
 
 mqttbasetopic .."_an" = ON || OFF (Switch LED strip on or off)
+
 mqttbasetopic .."_rot" = 0-255 (red brightness)
+
 mqttbasetopic .."_gruen" = 0-255 (green brightness)
+
 mqttbasetopic .."_blau" = 0-255 (blue brightness)
+
 
 
 so, if you chosse "/room1/ledstrip" as mqttbasetopic, then you need the following topis on your mqtt broker:
 /room1/ledstrip_an
+
 /room1/ledstrip_blue
+
 /room1/ledstrip_green
+
 /room1/ledstrip_red
+
 
 ##Usage with URL-functions
 
@@ -48,14 +56,21 @@ You can use the following convenient URL-functions:
 
 Control LED-Strip on GPIO2
 http://ip/strip=red
+
 http://ip/strip=blue
+
 http://ip/strip=green
+
 http://ip/strip=off
+
 http://ip/strip=rgb
+
 
 Control Relais or other on GPIO5
 http://ip/switch=on
+
 http://ip/switch=off
+
 
 ##NodeMCU CLI access
 
