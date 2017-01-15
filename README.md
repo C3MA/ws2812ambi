@@ -71,6 +71,9 @@ http://ip/ledvalue?1=0,255,0&2=255,0,0&3=0,255,255   .... and so on.... Switch i
 Did not try out yet, how many LEDs can be switchd in one request....
 
 
+http://ip/ledrange?10=100,0,0&20=0,100,0&30=0,0,100&40=100,100,0	... and so on... switch ranges of LEDs : 1-10 in one color, LEDs 11-20 in another color and LEDs 21-30 in the third color ....
+
+
 
 Control Relais or other on GPIO5
 http://ip/switch=on
