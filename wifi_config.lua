@@ -11,6 +11,58 @@ function save_wifi_param(ssid,password,mqttserver,mqttbasetopic)
 	ssid,password,mqttserver,mqttbasetopic=nil,nil,nil,nil
 end
 
+function debounce (func)
+    local last = 0
+    local delay = 200000
+
+    return function (...)
+        local now = tmr.now()
+        if now - last < delay then return end
+
+        last = now
+        return func(...)
+    end
+end
+
+function buttonGPIO0()
+	if (anaus=="ON") then
+		anaus="OFF"
+		blinkblink(0)
+		ledbuffer:fill(0,0,0)
+		ws2812.write(ledbuffer)
+	else
+		anaus="ON"
+		blinkblink(0)
+		ledbuffer:fill(255,255,255)
+		ws2812.write(ledbuffer)
+	end
+end
+
+--function to enable blinking in one sec
+function blinkblink(time)
+	if (time > 0) then
+		dark=1
+		tmr.alarm(0,time * 1000,1, function ()
+			if (dark==1) then
+				tempbuffer = ledbuffer:sub(1)
+				ledbuffer:fill(0,0,0)
+				ws2812.write(ledbuffer)
+				dark=0
+			else
+				ledbuffer:replace(tempbuffer)
+				ws2812.write(ledbuffer)
+				dark=1
+			end
+		end)
+	else
+		tmr.stop(0)
+		tmr.unregister(0)
+	end		
+end
+	
+
+
+
 --main routine after wifi has been setup correctly
 function logic()
 	rot = 0
@@ -19,10 +71,10 @@ function logic()
 	anaus="OFF"
 	m = mqtt.Client("ESP8266", 120, "user", "pass")
 	function mqttsubscribe()
-		tmr.alarm(1,1000,0,function() m:subscribe(mqttbasetopic .. "_an",0, function(conn) print("subscribe an success") end) end)
-		tmr.alarm(2,2000,0,function() m:subscribe(mqttbasetopic .. "_rot",0, function(conn) print("subscribe rot success") end) end)
-		tmr.alarm(3,3000,0,function() m:subscribe(mqttbasetopic .. "_gruen",0, function(conn) print("subscribe gruen success") end) end)
-		tmr.alarm(4,4000,0,function() m:subscribe(mqttbasetopic .. "_blau",0, function(conn) print("subscribe blau success") end) end)
+		tmr.alarm(1,1000,0,function() m:subscribe(mqttbasetopic .. "_an",0, function(conn) print("subscribe an success") tmr.unregister(1) end) end)
+		tmr.alarm(2,2000,0,function() m:subscribe(mqttbasetopic .. "_rot",0, function(conn) print("subscribe rot success") tmr.unregister(2) end) end)
+		tmr.alarm(3,3000,0,function() m:subscribe(mqttbasetopic .. "_gruen",0, function(conn) print("subscribe gruen success") tmr.unregister(3) end) end)
+		tmr.alarm(4,4000,0,function() m:subscribe(mqttbasetopic .. "_blau",0, function(conn) print("subscribe blau success") tmr.unregister(4) end) end)
 	end
 	ws2812.init(ws2812.MODE_SINGLE)
 	m:on("connect", mqttsubscribe)
@@ -31,11 +83,13 @@ function logic()
 		if topic== mqttbasetopic .."_an" then
 			if data=="ON" then
 				anaus = "ON"
+				blinkblink(0)
 				ledbuffer:fill(gruen,rot,blau)
 				ws2812.write(ledbuffer)
 				print("An!")
 			else
 				anaus = "OFF"
+				blinkblink(0)
 				ledbuffer:fill(0,0,0)
 				ws2812.write(ledbuffer)
 				print("Aus!")
@@ -64,10 +118,18 @@ function logic()
 					end
 					end)
 		m:connect(mqttserver,1883,0)
+		
+		--Button
+		gpio.mode(3,gpio.INT,gpio.PULLUP)
+		gpio.trig(3, "down", debounce(buttonGPIO0))
 end
 
 	--init_logic run once after successfully established network-connection 
+
+
 function init_logic()
+	--unregister Timer0
+	tmr.unregister(0)
 	--initialize WS2812-Buffer for 300 LEDs
 	ledbuffer=ws2812.newBuffer(300,3);
 	-- start webserver
@@ -76,6 +138,7 @@ function init_logic()
 	--set GPIO5 as output (for relais)
 	gpio.mode(5,gpio.OUTPUT)
 	gpio.write(5,gpio.LOW)
+
 	logic()
 end
 

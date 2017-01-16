@@ -55,6 +55,9 @@ so, if you chosse "/room1/ledstrip" as mqttbasetopic, then you need the followin
 You can use the following convenient URL-functions:
 
 Control LED-Strip on GPIO2
+
+http://ip/strip=red
+
 http://ip/strip=red
 
 http://ip/strip=blue
@@ -74,12 +77,18 @@ Did not try out yet, how many LEDs can be switchd in one request....
 http://ip/ledrange?10=100,0,0&20=0,100,0&30=0,0,100&40=100,100,0	... and so on... switch ranges of LEDs : 1-10 in one color, LEDs 11-20 in another color and LEDs 21-30 in the third color ....
 
 
+In the URL you can add "&blink={time in seconds}" to have the LEDs blinking...
+
 
 Control Relais or other on GPIO5
 http://ip/switch=on
 
 http://ip/switch=off
 
+
+##Hardware-Button
+
+You can connect a pushbotton between GPIO0 and GND. On Button press you can alternate the LED-strip between off and on (all white)
 
 ##NodeMCU CLI access
 
