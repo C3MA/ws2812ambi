@@ -39,6 +39,9 @@ srv:listen(80,function(conn)
 					if (payload:find("blink=%d+") ~= nil) then
 						for i in string.gmatch(payload, "blink=(%d+)") do blinkblink(tonumber(i)) end
 					end
+					if (payload:find("duration=%d+") ~= nil) then
+						for i in string.gmatch(payload, "duration=(%d+)") do blink(tonumber(i)) end
+					end
 					elseif (payload:find("GET /strip=blue") ~= nil) then
 						--here is code for handling http request from a web-browser
 						ledbuffer:fill(0,0,255)
@@ -47,6 +50,9 @@ srv:listen(80,function(conn)
 						conn:on("sent", function(conn) conn:close() end)
 						if (payload:find("blink=%d+") ~= nil) then
 							for i in string.gmatch(payload, "blink=(%d+)") do blinkblink(tonumber(i)) end
+						end
+						if (payload:find("duration=%d+") ~= nil) then
+							for i in string.gmatch(payload, "duration=(%d+)") do blink(tonumber(i)) end
 						end
 						elseif (payload:find("GET /strip=green") ~= nil) then
 							--here is code for handling http request from a web-browser
@@ -57,6 +63,9 @@ srv:listen(80,function(conn)
 							if (payload:find("blink=%d+") ~= nil) then
 								for i in string.gmatch(payload, "blink=(%d+)") do blinkblink(tonumber(i)) end
 							end
+							if (payload:find("duration=%d+") ~= nil) then
+								for i in string.gmatch(payload, "duration=(%d+)") do blink(tonumber(i)) end
+							end
 							elseif (payload:find("GET /strip=white") ~= nil) then
 								--here is code for handling http request from a web-browser
 								ledbuffer:fill(255,255,255)
@@ -66,6 +75,9 @@ srv:listen(80,function(conn)
 								if (payload:find("blink=%d+") ~= nil) then
 									for i in string.gmatch(payload, "blink=(%d+)") do blinkblink(tonumber(i)) end
 								end
+								if (payload:find("duration=%d+") ~= nil) then
+									for i in string.gmatch(payload, "duration=(%d+)") do blink(tonumber(i)) end
+								end
 								elseif (payload:find("GET /strip=rgb") ~= nil) then
 									--here is code for handling http request from a web-browser
 									ledbuffer:replace(string.char(255,0,0,255,0,0,255,0,0,0,255,0,0,255,0,0,255,0,0,0,255,0,0,255,0,0,255):rep(33))
@@ -74,6 +86,9 @@ srv:listen(80,function(conn)
 									conn:on("sent", function(conn) conn:close() end)
 									if (payload:find("blink=%d+") ~= nil) then
 										for i in string.gmatch(payload, "blink=(%d+)") do blinkblink(tonumber(i)) end
+									end
+									if (payload:find("duration=%d+") ~= nil) then
+										for i in string.gmatch(payload, "duration=(%d+)") do blink(tonumber(i)) end
 									end
 									elseif (payload:find("GET /strip=off") ~= nil) then
 										--here is code for handling http request from a web-browser
@@ -94,6 +109,9 @@ srv:listen(80,function(conn)
 											if (payload:find("blink=%d+") ~= nil) then
 												for i in string.gmatch(payload, "blink=(%d+)") do blinkblink(tonumber(i)) end
 											end
+											if (payload:find("duration=%d+") ~= nil) then
+												for i in string.gmatch(payload, "duration=(%d+)") do blink(tonumber(i)) end
+											end
 											elseif (payload:find("GET /ledrange?") ~= nil) then
 												_, datastart = payload:find("ledrange?")
 												ledbuffer:fill(0,0,0)
@@ -110,6 +128,9 @@ srv:listen(80,function(conn)
 												conn:on("sent", function(conn) conn:close() end)
 												if (payload:find("blink=%d+") ~= nil) then
 													for i in string.gmatch(payload, "blink=(%d+)") do blinkblink(tonumber(i)) end
+												end
+												if (payload:find("duration=%d+") ~= nil) then
+													for i in string.gmatch(payload, "duration=(%d+)") do blink(tonumber(i)) end
 												end
 												elseif (payload:find("GET /") ~= nil) then
 													sendWebPage(conn,1)

@@ -60,6 +60,30 @@ function blinkblink(time)
 	end		
 end
 	
+function blink(duration)
+	dark=1
+	count=0
+	tmr.alarm(1,500,1, function ()
+		if (count<duration) then
+			if (dark==1) then
+				tempbuffer = ledbuffer:sub(1)
+				ledbuffer:fill(0,0,0)
+				ws2812.write(ledbuffer)
+				dark=0			
+			else
+				ledbuffer:replace(tempbuffer)
+				ws2812.write(ledbuffer)
+				dark=1
+				count=count+1
+			end
+		else
+			tmr.stop(1)
+			tmr.unregister(1)
+			ledbuffer:fill(0,0,0)
+			ws2812.write(ledbuffer)
+		end
+	end)	
+end
 
 
 
@@ -138,7 +162,6 @@ function init_logic()
 	--set GPIO5 as output (for relais)
 	gpio.mode(5,gpio.OUTPUT)
 	gpio.write(5,gpio.LOW)
-
 	logic()
 end
 
