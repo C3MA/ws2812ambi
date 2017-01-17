@@ -78,6 +78,7 @@ http://ip/ledrange?10=100,0,0&20=0,100,0&30=0,0,100&40=100,100,0	... and so on..
 
 
 In the URL you can add "&blink={time in seconds}" to have the LEDs blinking...
+Also you can add "&duration{time in seconds}" to have the LEDs blinking only for a specific duration of time
 
 
 Control Relais or other on GPIO5
