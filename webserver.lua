@@ -36,6 +36,8 @@ srv:listen(80,function(conn)
 					ws2812.write(ledbuffer)
 					sendWebPage(conn,1)
 					conn:on("sent", function(conn) conn:close() end)
+					tmr.stop(1)
+					tmr.unregister(1)
 					if (payload:find("blink=%d+") ~= nil) then
 						for i in string.gmatch(payload, "blink=(%d+)") do blinkblink(tonumber(i)) end
 					end
@@ -48,6 +50,8 @@ srv:listen(80,function(conn)
 						ws2812.write(ledbuffer)
 						sendWebPage(conn,1)
 						conn:on("sent", function(conn) conn:close() end)
+						tmr.stop(1)
+						tmr.unregister(1)
 						if (payload:find("blink=%d+") ~= nil) then
 							for i in string.gmatch(payload, "blink=(%d+)") do blinkblink(tonumber(i)) end
 						end
@@ -60,6 +64,8 @@ srv:listen(80,function(conn)
 							ws2812.write(ledbuffer)
 							sendWebPage(conn,1)
 							conn:on("sent", function(conn) conn:close() end)
+							tmr.stop(1)
+							tmr.unregister(1)
 							if (payload:find("blink=%d+") ~= nil) then
 								for i in string.gmatch(payload, "blink=(%d+)") do blinkblink(tonumber(i)) end
 							end
@@ -72,6 +78,8 @@ srv:listen(80,function(conn)
 								ws2812.write(ledbuffer)
 								sendWebPage(conn,1)
 								conn:on("sent", function(conn) conn:close() end)
+								tmr.stop(1)
+								tmr.unregister(1)
 								if (payload:find("blink=%d+") ~= nil) then
 									for i in string.gmatch(payload, "blink=(%d+)") do blinkblink(tonumber(i)) end
 								end
@@ -84,6 +92,8 @@ srv:listen(80,function(conn)
 									ws2812.write(ledbuffer)
 									sendWebPage(conn,1)
 									conn:on("sent", function(conn) conn:close() end)
+									tmr.stop(1)
+									tmr.unregister(1)
 									if (payload:find("blink=%d+") ~= nil) then
 										for i in string.gmatch(payload, "blink=(%d+)") do blinkblink(tonumber(i)) end
 									end
@@ -97,6 +107,8 @@ srv:listen(80,function(conn)
 										sendWebPage(conn,1)
 										conn:on("sent", function(conn) conn:close() end)
 										blinkblink(0)
+										tmr.stop(1)
+										tmr.unregister(1)
 										elseif (payload:find("GET /ledvalue?") ~= nil) then
 											_, datastart = payload:find("ledvalue?")
 											local _GET = {}
@@ -106,6 +118,8 @@ srv:listen(80,function(conn)
 											end
 											sendWebPage(conn,1)
 											conn:on("sent", function(conn) conn:close() end)
+											tmr.stop(1)
+											tmr.unregister(1)
 											if (payload:find("blink=%d+") ~= nil) then
 												for i in string.gmatch(payload, "blink=(%d+)") do blinkblink(tonumber(i)) end
 											end
@@ -126,6 +140,8 @@ srv:listen(80,function(conn)
 												end
 												sendWebPage(conn,1)
 												conn:on("sent", function(conn) conn:close() end)
+												tmr.stop(1)
+												tmr.unregister(1)
 												if (payload:find("blink=%d+") ~= nil) then
 													for i in string.gmatch(payload, "blink=(%d+)") do blinkblink(tonumber(i)) end
 												end
