@@ -25,13 +25,13 @@ function debounce (func)
 end
 
 function buttonGPIO0()
-	if (anaus=="ON") then
-		anaus="OFF"
+	if (onoff=="ON") then
+		onoff="OFF"
 		blinkblink(0)
 		ledbuffer:fill(0,0,0)
 		ws2812.write(ledbuffer)
 	else
-		anaus="ON"
+		onoff="ON"
 		blinkblink(0)
 		ledbuffer:fill(255,255,255)
 		ws2812.write(ledbuffer)
@@ -89,16 +89,16 @@ end
 
 --main routine after wifi has been setup correctly
 function logic()
-	rot = 0
-	gruen = 0
-	blau = 0
-	anaus="OFF"
+	red = 0
+	green = 0
+	blue = 0
+	onoff="OFF"
 	m = mqtt.Client("ESP8266", 120, "user", "pass")
 	function mqttsubscribe()
-		tmr.alarm(1,1000,0,function() m:subscribe(mqttbasetopic .. "_an",0, function(conn) print("subscribe an success") tmr.unregister(1) end) end)
-		tmr.alarm(2,2000,0,function() m:subscribe(mqttbasetopic .. "_rot",0, function(conn) print("subscribe rot success") tmr.unregister(2) end) end)
-		tmr.alarm(3,3000,0,function() m:subscribe(mqttbasetopic .. "_gruen",0, function(conn) print("subscribe gruen success") tmr.unregister(3) end) end)
-		tmr.alarm(4,4000,0,function() m:subscribe(mqttbasetopic .. "_blau",0, function(conn) print("subscribe blau success") tmr.unregister(4) end) end)
+		tmr.alarm(1,1000,0,function() m:subscribe(mqttbasetopic .. "_on",0, function(conn) print("subscribe on success") tmr.unregister(1) end) end)
+		tmr.alarm(2,2000,0,function() m:subscribe(mqttbasetopic .. "_red",0, function(conn) print("subscribe red success") tmr.unregister(2) end) end)
+		tmr.alarm(3,3000,0,function() m:subscribe(mqttbasetopic .. "_green",0, function(conn) print("subscribe green success") tmr.unregister(3) end) end)
+		tmr.alarm(4,4000,0,function() m:subscribe(mqttbasetopic .. "_blue",0, function(conn) print("subscribe blue success") tmr.unregister(4) end) end)
 	end
 	ws2812.init(ws2812.MODE_SINGLE)
 	m:on("connect", mqttsubscribe)
@@ -106,37 +106,37 @@ function logic()
 	m:on("message", function(conn, topic, data)
 		if topic== mqttbasetopic .."_an" then
 			if data=="ON" then
-				anaus = "ON"
+				onoff = "ON"
 				blinkblink(0)
-				ledbuffer:fill(gruen,rot,blau)
+				ledbuffer:fill(green,red,blue)
 				ws2812.write(ledbuffer)
-				print("An!")
+				print("On!")
 			else
-				anaus = "OFF"
+				onoff = "OFF"
 				blinkblink(0)
 				ledbuffer:fill(0,0,0)
 				ws2812.write(ledbuffer)
-				print("Aus!")
+				print("Off!")
 			end
-			elseif topic== mqttbasetopic .. "_rot" then
-				rot=tonumber(data)
-				print("rot: " .. rot)
-				if anaus == "ON" then
-					ledbuffer:fill(gruen,rot,blau)
+			elseif topic== mqttbasetopic .. "_red" then
+				red=tonumber(data)
+				print("red: " .. red)
+				if onoff == "ON" then
+					ledbuffer:fill(green,red,blue)
 					ws2812.write(ledbuffer)
 				end
-				elseif topic== mqttbasetopic .. "_gruen" then
-					gruen=tonumber(data)
-					print("gruen: " .. gruen)
-					if anaus == "ON" then
-						ledbuffer:fill(gruen,rot,blau)
+				elseif topic== mqttbasetopic .. "_green" then
+					green=tonumber(data)
+					print("green: " .. green)
+					if onoff == "ON" then
+						ledbuffer:fill(green,red,blue)
 						ws2812.write(ledbuffer)
 					end
-					elseif topic== mqttbasetopic .. "_blau" then
-						blau=tonumber(data)
-						print("blau: " .. blau)
-						if anaus == "ON" then
-							ledbuffer:fill(gruen,rot,blau)
+					elseif topic== mqttbasetopic .. "_blue" then
+						blue=tonumber(data)
+						print("blue: " .. blue)
+						if onoff == "ON" then
+							ledbuffer:fill(green,red,blue)
 							ws2812.write(ledbuffer)
 						end
 					end
@@ -159,6 +159,8 @@ function init_logic()
 	-- start webserver
 	dofile("webserver.lc")
 	startWebServer()
+	--register MDNS
+	mdns.register("ambilight", { description="WS2812 Ambilight", service="http", port="80" })
 	--set GPIO5 as output (for relais)
 	gpio.mode(5,gpio.OUTPUT)
 	gpio.write(5,gpio.LOW)
