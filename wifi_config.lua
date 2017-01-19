@@ -104,7 +104,7 @@ function logic()
 	m:on("connect", mqttsubscribe)
 	m:on("offline", function(con) print ("offline") end)
 	m:on("message", function(conn, topic, data)
-		if topic== mqttbasetopic .."_an" then
+		if topic== mqttbasetopic .."_on" then
 			if data=="ON" then
 				onoff = "ON"
 				blinkblink(0)
