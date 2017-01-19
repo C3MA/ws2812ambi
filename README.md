@@ -4,6 +4,16 @@
 This is a small application for the ESP8266 running NodeMCU to control a WS2812 LED strip via MQTT or via URL-call
 
 ##Installation
+Your ESP8266-module needs to run the Nodemcu-Firmware. These skripts are working with Release 1.5.4.1
+Compile NodeMCU with the following modules:
+- WS2812
+- NET
+- MDNS
+- EnduserSetup
+- MQTT
+
+Instead of compiling yourself you can search for a online-build-service, that is available for NodeMCU
+
 
 Flash the following files on your ESP8266, that runs the NodeMCU-firmware:
 - init.lua
@@ -11,8 +21,11 @@ Flash the following files on your ESP8266, that runs the NodeMCU-firmware:
 - wifi_config.lua
 - wlancfg.lua
 
+Use ESPLORER or nodemcu-uploader:
 
-Make sure, the ESP8266 runs a NodeMCU-firmware, that was compiled with the WS2812 module, the mqtt module and the ws2812 module as well
+nodemcu-uploader --port/dev/tty....   upload init.lua webserver.lua wifi_config.lua wlancfg.lua_
+
+Make sure, the ESP8266 runs a NodeMCU-firmware, that was compiled with the WS2812 module, the mqtt module  ,the enduser-setup-module and the MDNS module as well
 This app was tested with nodemcu-release 1.5.4.1
 
 ##Wiring
@@ -30,18 +43,18 @@ If it can connect to the wifi, it will disply its IP-address on UART. With a web
 
 On your mqtt-server have these topics ready:
 
-mqttbasetopic .."_an" = ON || OFF (Switch LED strip on or off)
+mqttbasetopic .."_on" = ON || OFF (Switch LED strip on or off)
 
-mqttbasetopic .."_rot" = 0-255 (red brightness)
+mqttbasetopic .."_red" = 0-255 (red brightness)
 
-mqttbasetopic .."_gruen" = 0-255 (green brightness)
+mqttbasetopic .."_green" = 0-255 (green brightness)
 
-mqttbasetopic .."_blau" = 0-255 (blue brightness)
+mqttbasetopic .."_blue" = 0-255 (blue brightness)
 
 
 
 so, if you chosse "/room1/ledstrip" as mqttbasetopic, then you need the following topis on your mqtt broker:
-/room1/ledstrip_an
+/room1/ledstrip_on
 
 /room1/ledstrip_blue
 
@@ -87,6 +100,8 @@ http://ip/switch=on
 
 http://ip/switch=off
 
+The controller will advertise itself as "ambilight.local" via MDNS
+
 
 ##Hardware-Button
 
@@ -99,4 +114,9 @@ for troubleshooting you can also access the NodeMCU cli via network using netcat
 nc WS2812Ambi_IP 80
 
 (press "." and Enter)
+
+##Remote Upgrade
+You can use the script "remoteUpgrade.sh <IP>" to update the LUA-Files remotely
+
+
 
