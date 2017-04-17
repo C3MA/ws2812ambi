@@ -23,7 +23,7 @@ Flash the following files on your ESP8266, that runs the NodeMCU-firmware:
 
 Use ESPLORER or nodemcu-uploader:
 
-nodemcu-uploader --port/dev/tty....   upload init.lua webserver.lua wifi_config.lua wlancfg.lua_
+nodemcu-uploader --port/dev/tty....   upload init.lua webserver.lua wifi_config.lua wlancfg.lua
 
 Make sure, the ESP8266 runs a NodeMCU-firmware, that was compiled with the WS2812 module, the mqtt module  ,the enduser-setup-module and the MDNS module as well
 This app was tested with nodemcu-release 1.5.4.1
