@@ -182,7 +182,7 @@ connect_counter = 0
 tmr.alarm(0, 100, 1, function()
 	if wifi.sta.status() ~= 5 then
 		connect_counter = connect_counter + 1
-		print("Connecting to AP...")
+		print(tostring(connect_counter) .. "/300 Connecting to AP...")
 		if(connect_counter == 300) then
 			tmr.stop(0)
 			print("Starting WiFi setup mode")
