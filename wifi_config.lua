@@ -177,7 +177,7 @@ end
 --load Wifi-configuration and try to connect
 dofile("wlancfg.lua")
 
-
+print("Connecting to AP for 30 seconds")
 connect_counter = 0
 tmr.alarm(0, 100, 1, function()
 	if wifi.sta.status() ~= 5 then
