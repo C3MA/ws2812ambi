@@ -30,4 +30,4 @@ if [ $? -ne 0 ]; then
  exit 1
 fi
 
-./esptool.py --port $DEVICE write_flash 0x00000 0x00000.bin 0x10000 0x10000.bin
+./esptool.py --port $DEVICE write_flash 0x00000 ESP01/0x00000.bin 0x10000 ESP01/0x10000.bin
