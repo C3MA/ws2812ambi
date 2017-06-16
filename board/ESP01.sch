@@ -1,0 +1,297 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:ESP01-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L CONN_02X04 P2
+U 1 1 5942640E
+P 3850 2650
+F 0 "P2" H 3850 2900 50  0000 C CNN
+F 1 "CONN_02X04" H 3850 2400 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_2x04" H 3850 1450 50  0001 C CNN
+F 3 "" H 3850 1450 50  0000 C CNN
+	1    3850 2650
+	0    -1   1    0   
+$EndComp
+Wire Wire Line
+	3700 2400 3700 2200
+Wire Wire Line
+	3700 2200 3250 2200
+$Comp
+L GND #PWR01
+U 1 1 594266C1
+P 3250 2200
+F 0 "#PWR01" H 3250 1950 50  0001 C CNN
+F 1 "GND" H 3250 2050 50  0000 C CNN
+F 2 "" H 3250 2200 50  0000 C CNN
+F 3 "" H 3250 2200 50  0000 C CNN
+	1    3250 2200
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3800 2400 3800 1950
+Text GLabel 3800 1950 1    60   Input ~ 0
+GPIO2
+Wire Wire Line
+	3900 2400 3900 2100
+Wire Wire Line
+	3900 2100 4000 2100
+Wire Wire Line
+	4000 2100 4000 1950
+Text GLabel 4000 1950 1    60   Input ~ 0
+GPIO0
+Wire Wire Line
+	4000 2400 4000 2250
+Wire Wire Line
+	4000 2250 4150 2250
+Wire Wire Line
+	3700 2900 3700 3050
+Wire Wire Line
+	3800 2900 3800 3100
+Wire Wire Line
+	3800 3100 3750 3100
+Wire Wire Line
+	3750 3100 3750 3200
+Wire Wire Line
+	3900 2900 3900 3100
+Wire Wire Line
+	3900 3100 3950 3100
+Wire Wire Line
+	3950 3100 3950 3200
+Wire Wire Line
+	4000 2900 4000 3050
+Wire Wire Line
+	4000 3050 4350 3050
+Text GLabel 4150 2250 2    60   Input ~ 0
+RX
+Text GLabel 3450 3050 0    60   Input ~ 0
+TX
+Wire Wire Line
+	3700 3050 3450 3050
+$Comp
+L R R1
+U 1 1 594267F1
+P 3750 3350
+F 0 "R1" V 3830 3350 50  0000 C CNN
+F 1 "10k" V 3750 3350 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206_HandSoldering" V 3680 3350 50  0001 C CNN
+F 3 "" H 3750 3350 50  0000 C CNN
+	1    3750 3350
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R2
+U 1 1 594268E0
+P 3950 3350
+F 0 "R2" V 4030 3350 50  0000 C CNN
+F 1 "10k" V 3950 3350 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206_HandSoldering" V 3880 3350 50  0001 C CNN
+F 3 "" H 3950 3350 50  0000 C CNN
+	1    3950 3350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3750 3500 4150 3500
+Wire Wire Line
+	4150 3500 4150 3050
+Connection ~ 3950 3500
+$Comp
+L +3V3 #PWR02
+U 1 1 59426935
+P 4350 3050
+F 0 "#PWR02" H 4350 2900 50  0001 C CNN
+F 1 "+3V3" H 4350 3190 50  0000 C CNN
+F 2 "" H 4350 3050 50  0000 C CNN
+F 3 "" H 4350 3050 50  0000 C CNN
+	1    4350 3050
+	1    0    0    -1  
+$EndComp
+Connection ~ 4150 3050
+$Comp
+L R R3
+U 1 1 59426C4F
+P 4300 3300
+F 0 "R3" V 4380 3300 50  0000 C CNN
+F 1 "10k" V 4300 3300 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206_HandSoldering" V 4230 3300 50  0001 C CNN
+F 3 "" H 4300 3300 50  0000 C CNN
+	1    4300 3300
+	0    1    1    0   
+$EndComp
+Connection ~ 4150 3300
+Wire Wire Line
+	4450 3300 4600 3300
+Text GLabel 4600 3300 2    60   Input ~ 0
+GPIO0
+$Comp
+L CONN_01X03 P3
+U 1 1 59426D11
+P 5150 2250
+F 0 "P3" H 5150 2450 50  0000 C CNN
+F 1 "CONN_01X03" V 5250 2250 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x03" H 5150 2250 50  0001 C CNN
+F 3 "" H 5150 2250 50  0000 C CNN
+	1    5150 2250
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5350 2150 5900 2150
+Wire Wire Line
+	5350 2250 5600 2250
+Wire Wire Line
+	5350 2350 5500 2350
+Wire Wire Line
+	5500 2350 5500 2500
+$Comp
+L GND #PWR03
+U 1 1 59426E7E
+P 5900 2150
+F 0 "#PWR03" H 5900 1900 50  0001 C CNN
+F 1 "GND" H 5900 2000 50  0000 C CNN
+F 2 "" H 5900 2150 50  0000 C CNN
+F 3 "" H 5900 2150 50  0000 C CNN
+	1    5900 2150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L +3V3 #PWR04
+U 1 1 59426E9C
+P 5600 2250
+F 0 "#PWR04" H 5600 2100 50  0001 C CNN
+F 1 "+3V3" H 5600 2390 50  0000 C CNN
+F 2 "" H 5600 2250 50  0000 C CNN
+F 3 "" H 5600 2250 50  0000 C CNN
+	1    5600 2250
+	0    1    1    0   
+$EndComp
+$Comp
+L +5V #PWR05
+U 1 1 59426EBA
+P 5500 2500
+F 0 "#PWR05" H 5500 2350 50  0001 C CNN
+F 1 "+5V" H 5500 2640 50  0000 C CNN
+F 2 "" H 5500 2500 50  0000 C CNN
+F 3 "" H 5500 2500 50  0000 C CNN
+	1    5500 2500
+	-1   0    0    1   
+$EndComp
+$Comp
+L CONN_01X03 P4
+U 1 1 59426ED8
+P 6600 1650
+F 0 "P4" H 6600 1850 50  0000 C CNN
+F 1 "CONN_01X03" V 6700 1650 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x03" H 6600 1650 50  0001 C CNN
+F 3 "" H 6600 1650 50  0000 C CNN
+	1    6600 1650
+	0    1    1    0   
+$EndComp
+$Comp
+L CONN_01X03 P5
+U 1 1 594270FD
+P 7400 1650
+F 0 "P5" H 7400 1850 50  0000 C CNN
+F 1 "CONN_01X03" V 7500 1650 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x03" H 7400 1650 50  0001 C CNN
+F 3 "" H 7400 1650 50  0000 C CNN
+	1    7400 1650
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	6500 1450 6800 1450
+Connection ~ 6600 1450
+Connection ~ 6700 1450
+Wire Wire Line
+	7300 1450 7650 1450
+Connection ~ 7400 1450
+Connection ~ 7500 1450
+$Comp
+L +5V #PWR06
+U 1 1 59427277
+P 7650 1450
+F 0 "#PWR06" H 7650 1300 50  0001 C CNN
+F 1 "+5V" H 7650 1590 50  0000 C CNN
+F 2 "" H 7650 1450 50  0000 C CNN
+F 3 "" H 7650 1450 50  0000 C CNN
+	1    7650 1450
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR07
+U 1 1 5942729B
+P 6800 1450
+F 0 "#PWR07" H 6800 1200 50  0001 C CNN
+F 1 "GND" H 6800 1300 50  0000 C CNN
+F 2 "" H 6800 1450 50  0000 C CNN
+F 3 "" H 6800 1450 50  0000 C CNN
+	1    6800 1450
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_01X01 P1
+U 1 1 59427497
+P 2250 2000
+F 0 "P1" H 2250 2100 50  0000 C CNN
+F 1 "CONN_01X01" V 2350 2000 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Angled_1x01" H 2250 2000 50  0001 C CNN
+F 3 "" H 2250 2000 50  0000 C CNN
+	1    2250 2000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2050 2000 1800 2000
+Text GLabel 1800 2000 0    60   Input ~ 0
+GPIO0
+$Comp
+L CONN_01X06 P6
+U 1 1 59440AE8
+P 7100 2700
+F 0 "P6" H 7100 3050 50  0000 C CNN
+F 1 "CONN_01X06" V 7200 2700 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Angled_1x06" H 7100 2700 50  0001 C CNN
+F 3 "" H 7100 2700 50  0000 C CNN
+	1    7100 2700
+	1    0    0    -1  
+$EndComp
+$EndSCHEMATC
