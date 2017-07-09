@@ -115,7 +115,7 @@ U 1 1 594267F1
 P 3750 3350
 F 0 "R1" V 3830 3350 50  0000 C CNN
 F 1 "10k" V 3750 3350 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206_HandSoldering" V 3680 3350 50  0001 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM7mm" V 3680 3350 50  0001 C CNN
 F 3 "" H 3750 3350 50  0000 C CNN
 	1    3750 3350
 	1    0    0    -1  
@@ -126,7 +126,7 @@ U 1 1 594268E0
 P 3950 3350
 F 0 "R2" V 4030 3350 50  0000 C CNN
 F 1 "10k" V 3950 3350 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206_HandSoldering" V 3880 3350 50  0001 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM7mm" V 3880 3350 50  0001 C CNN
 F 3 "" H 3950 3350 50  0000 C CNN
 	1    3950 3350
 	1    0    0    -1  
@@ -154,7 +154,7 @@ U 1 1 59426C4F
 P 4300 3300
 F 0 "R3" V 4380 3300 50  0000 C CNN
 F 1 "10k" V 4300 3300 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206_HandSoldering" V 4230 3300 50  0001 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM7mm" V 4230 3300 50  0001 C CNN
 F 3 "" H 4300 3300 50  0000 C CNN
 	1    4300 3300
 	0    1    1    0   
@@ -274,7 +274,7 @@ U 1 1 59427497
 P 2250 2000
 F 0 "P1" H 2250 2100 50  0000 C CNN
 F 1 "CONN_01X01" V 2350 2000 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Angled_1x01" H 2250 2000 50  0001 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x01" H 2250 2000 50  0001 C CNN
 F 3 "" H 2250 2000 50  0000 C CNN
 	1    2250 2000
 	1    0    0    -1  
@@ -282,16 +282,5 @@ $EndComp
 Wire Wire Line
 	2050 2000 1800 2000
 Text GLabel 1800 2000 0    60   Input ~ 0
-GPIO0
-$Comp
-L CONN_01X06 P6
-U 1 1 59440AE8
-P 7100 2700
-F 0 "P6" H 7100 3050 50  0000 C CNN
-F 1 "CONN_01X06" V 7200 2700 50  0000 C CNN
-F 2 "Socket_Strips:Socket_Strip_Angled_1x06" H 7100 2700 50  0001 C CNN
-F 3 "" H 7100 2700 50  0000 C CNN
-	1    7100 2700
-	1    0    0    -1  
-$EndComp
+GPIO2
 $EndSCHEMATC
