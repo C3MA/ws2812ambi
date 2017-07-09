@@ -119,4 +119,7 @@ nc WS2812Ambi_IP 80
 You can use the script "remoteUpgrade.sh <IP>" to update the LUA-Files remotely
 
 
+##Special Hints
 
+Multicast-DNS-Name and MQTT-Client name have to be set directly in the LUA-Files in the code.
+Remember: Do not have two MQTT-clients with same client-name on broker

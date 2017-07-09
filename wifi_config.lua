@@ -102,7 +102,19 @@ function logic()
 	end
 	ws2812.init(ws2812.MODE_SINGLE)
 	m:on("connect", mqttsubscribe)
-	m:on("offline", function(con) print ("offline") end)
+   m:on("offline", function(con) 
+       print ("offline") 
+       connected=false
+       tmr.alarm(4, 5000, 1, function()
+           if (connected == true) then
+               print("Reconnect successful")
+           else
+
+               print("Reconnecting to " .. mqttserver .. "...")
+               m:connect(mqttserver, 1883, 0)
+           end
+       end)
+   end)
 	m:on("message", function(conn, topic, data)
 		if topic== mqttbasetopic .."_on" then
 			if data=="ON" then
@@ -160,7 +172,7 @@ function init_logic()
 	dofile("webserver.lc")
 	startWebServer()
 	--register MDNS
-	mdns.register("ambilight", { description="WS2812 Ambilight", service="http", port="80" })
+	mdns.register("ambilightsz", { description="WS2812 Ambilight Schlafzimmer", service="http", port="80" })
 	--set GPIO5 as output (for relais)
 	gpio.mode(5,gpio.OUTPUT)
 	gpio.write(5,gpio.LOW)
