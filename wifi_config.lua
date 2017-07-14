@@ -166,8 +166,6 @@ end
 function init_logic()
 	--unregister Timer0
 	tmr.unregister(0)
-	--initialize WS2812-Buffer for 300 LEDs
-	ledbuffer=ws2812.newBuffer(300,3);
 	-- start webserver
 	dofile("webserver.lc")
 	startWebServer()
@@ -180,8 +178,8 @@ function init_logic()
 end
 
 
-
-
+--initialize WS2812-Buffer for 300 LEDs
+ledbuffer=ws2812.newBuffer(300,3);
 
 --MAIN PROGRAM ENTRY POINT, CALLED FROM init.lua
 
@@ -195,8 +193,13 @@ tmr.alarm(0, 100, 1, function()
 	if wifi.sta.status() ~= 5 then
 		connect_counter = connect_counter + 1
 		print(tostring(connect_counter) .. "/300 Connecting to AP...")
+        -- Green moving dot during connecting
+        ledbuffer:set(connect_counter % ledbuffer:size() + 1, 128, 0, 0)
+        ws2812.write(ledbuffer)
 		if(connect_counter == 300) then
 			tmr.stop(0)
+            ledbuffer:fill(0,64,0)
+            ws2812.write(ledbuffer)
 			print("Starting WiFi setup mode")
 			enduser_setup.start(
 			function()
@@ -213,11 +216,11 @@ tmr.alarm(0, 100, 1, function()
 			end
 		else
 			tmr.stop(0)
+            ledbuffer:fill(0,0,0)
+            ws2812.write(ledbuffer)
 			print('IP: ',wifi.sta.getip())
 			init_logic()
 		end
 	end
 	)
-      
-									--at this point we should be ready to go....
-
+--at this point we should be ready to go....
