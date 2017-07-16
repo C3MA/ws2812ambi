@@ -177,7 +177,7 @@ function init_logic()
 	logic()
 end
 
-
+ws2812.init()
 --initialize WS2812-Buffer for 300 LEDs
 ledbuffer=ws2812.newBuffer(300,3);
 
@@ -194,7 +194,10 @@ tmr.alarm(0, 100, 1, function()
 		connect_counter = connect_counter + 1
 		print(tostring(connect_counter) .. "/300 Connecting to AP...")
         -- Green moving dot during connecting
-        ledbuffer:set(connect_counter % ledbuffer:size() + 1, 128, 0, 0)
+        ledbuffer:set(connect_counter% ledbuffer:size() + 1, 64, 0, 0)
+        -- clear the last LED
+        ledbuffer:set((connect_counter - 1) % ledbuffer:size() + 1, 0, 0, 0)
+        
         ws2812.write(ledbuffer)
 		if(connect_counter == 300) then
 			tmr.stop(0)
