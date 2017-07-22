@@ -4,12 +4,10 @@ function save_wifi_param(ssid,password,mqttserver,mqttbasetopic)
 	file.open("wlancfg.lua","w+");
 	w = file.writeline('-- Tell the chip to connect to this access point');
 	w = file.writeline('wifi.setmode(wifi.STATION)');
-	w = file.writeline('wifi.sta.config([[' .. tostring(ssid) .. ']],[[' .. tostring(password) .. '"]]');
+	w = file.writeline('wifi.sta.config([[' .. tostring(ssid) .. ']],[[' .. tostring(password) .. ']])');
 	w = file.writeline('mqttserver="' .. tostring(mqttserver) ..'"');
 	w = file.writeline('mqttbasetopic="' .. tostring(mqttbasetopic) ..'"');
 	file.close();
-    print "Updated Config"
-	ssid,password,mqttserver,mqttbasetopic=nil,nil,nil,nil
 end
 
 function debounce (func)
@@ -211,6 +209,8 @@ tmr.alarm(0, 100, 1, function()
 				save_wifi_param(ssid,password,"192.168.0.1","/ledstrip/");
 				print("Connected to wifi as:" .. wifi.sta.getip());
 				print("Saved parameters in wlancfg.lua");
+                ledbuffer:fill(31,0,0)
+                ws2812.write(ledbuffer)
 				init_logic();
 				end,
 				function(err, str)
