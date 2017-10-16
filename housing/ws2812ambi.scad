@@ -8,6 +8,9 @@ boardDepth=37;
 boardAndPartsHeight=20;
 boardHeight=2.5;
 boardBottomSpace=0;
+// Necessary for fixing
+windowBench=25;
+windowBenchLength=30;
 
 // CylinderMoving
 cylMoveX=boardWidth/2;
@@ -38,3 +41,8 @@ translate([0,0,boardBottomSpace+materialWidth+boardHeight]) cube([materialWidth,
 // right holder for the board
 translate([boardWidth-materialWidth,0,boardBottomSpace]) cube([materialWidth, boardDepth,materialWidth]);
 translate([boardWidth-materialWidth,0,boardBottomSpace+materialWidth+boardHeight]) cube([materialWidth, boardDepth,materialWidth]);
+
+translate([-materialWidth,(boardDepth-windowBenchLength),boardAndPartsHeight+materialWidth]) difference() {
+    cube([boardWidth+(materialWidth*2), windowBenchLength,windowBench+materialWidth]); 
+    cube([boardWidth+(materialWidth*2), windowBenchLength-materialWidth,windowBench]); 
+}
