@@ -4,7 +4,7 @@ materialWidth=2;
 
 boardWidth=26;
 boardHeight=2.5;
-boardDepth=37;
+boardDepth=40;
 boardAndPartsHeight=20;
 boardHeight=2.5;
 boardBottomSpace=0;
@@ -22,8 +22,8 @@ translate([cylMoveX,cylMoveY,cylMoveZ]) rotate([90,0,0]) difference() {
     cylinder($fn=360, h=LEDcylinderOverlap,d=materialWidth+LEDcylinderOutDiameter+materialWidth, center=true);
     cylinder($fn=360, h=LEDcylinderOverlap,d=LEDcylinderOutDiameter, center=true);    
 }
-// Connector between round and squared
 
+// Connector between round and squared
 difference() {
     translate([-materialWidth,-materialWidth,-materialWidth]) cube([boardWidth+(2*materialWidth), materialWidth,boardAndPartsHeight+(2*materialWidth)]);
     translate([cylMoveX,0,cylMoveZ]) rotate([90,0,0]) cylinder($fn=360, h=LEDcylinderOverlap,d=LEDcylinderOutDiameter, center=true);   
@@ -33,8 +33,14 @@ difference() {
 difference() {
     translate([-materialWidth,0,-materialWidth])
     cube([boardWidth+(2*materialWidth), boardDepth,boardAndPartsHeight+(2*materialWidth)]);
-    cube([boardWidth, boardDepth,boardAndPartsHeight]);
+    union() {
+        translate([0,10,0]) cube([boardWidth, boardDepth+10,boardAndPartsHeight]);
+        //translate([boardWidth/2,boardDepth-20,boardWidth/2]) sphere(d = boardWidth, $fn=100);
+        translate([boardWidth/2,boardWidth-15,(boardWidth/2)-materialWidth*1.5]) rotate([0, 90, 0]) cylinder(h=boardWidth, d=(boardAndPartsHeight), center=true, $fn=100);
+        translate([boardWidth/2,0,boardAndPartsHeight/2]) rotate([90,0,0]) cylinder($fn=360, h=LEDcylinderOverlap,d=LEDcylinderOutDiameter, center=true);
+    }
 }
+
 // left holder for the board
 translate([0,0,boardBottomSpace]) cube([materialWidth, boardDepth,materialWidth]);
 translate([0,0,boardBottomSpace+materialWidth+boardHeight]) cube([materialWidth, boardDepth,materialWidth]);
