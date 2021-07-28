@@ -98,6 +98,7 @@ function logic()
 		tmr.alarm(2,2000,0,function() m:subscribe(mqttbasetopic .. "_red",0, function(conn) print("subscribe red success") tmr.unregister(2) end) end)
 		tmr.alarm(3,3000,0,function() m:subscribe(mqttbasetopic .. "_green",0, function(conn) print("subscribe green success") tmr.unregister(3) end) end)
 		tmr.alarm(4,4000,0,function() m:subscribe(mqttbasetopic .. "_blue",0, function(conn) print("subscribe blue success") tmr.unregister(4) end) end)
+		tmr.alarm(5,5000,0,function() m:publish(mqttbasetopic .. "_state", wifi.sta.getip(), 0, false) end)
 	end
 	ws2812.init(ws2812.MODE_SINGLE)
 	m:on("connect", mqttsubscribe)
@@ -116,43 +117,45 @@ function logic()
    end)
 	m:on("message", function(conn, topic, data)
 		if topic== mqttbasetopic .."_on" then
-			if data=="ON" then
+			if data =="ON" then
 				onoff = "ON"
 				blinkblink(0)
 				ledbuffer:fill(green,red,blue)
 				ws2812.write(ledbuffer)
 				print("On!")
-			else
+			elseif data =="OFF" then
 				onoff = "OFF"
 				blinkblink(0)
 				ledbuffer:fill(0,0,0)
 				ws2812.write(ledbuffer)
 				print("Off!")
+		    else
+		        print("TBD")
 			end
-			elseif topic== mqttbasetopic .. "_red" then
-				red=tonumber(data)
-				print("red: " .. red)
-				if onoff == "ON" then
-					ledbuffer:fill(green,red,blue)
-					ws2812.write(ledbuffer)
-				end
-				elseif topic== mqttbasetopic .. "_green" then
-					green=tonumber(data)
-					print("green: " .. green)
-					if onoff == "ON" then
-						ledbuffer:fill(green,red,blue)
-						ws2812.write(ledbuffer)
-					end
-					elseif topic== mqttbasetopic .. "_blue" then
-						blue=tonumber(data)
-						print("blue: " .. blue)
-						if onoff == "ON" then
-							ledbuffer:fill(green,red,blue)
-							ws2812.write(ledbuffer)
-						end
-					end
-					end)
-		m:connect(mqttserver,1883,0)
+        elseif topic== mqttbasetopic .. "_red" then
+			red=tonumber(data)
+			print("red: " .. red)
+			if onoff == "ON" then
+				ledbuffer:fill(green,red,blue)
+				ws2812.write(ledbuffer)
+			end
+		elseif topic== mqttbasetopic .. "_green" then
+		    green=tonumber(data)
+		    print("green: " .. green)
+		    if onoff == "ON" then
+			    ledbuffer:fill(green,red,blue)
+			    ws2812.write(ledbuffer)
+		    end
+		elseif topic== mqttbasetopic .. "_blue" then
+			blue=tonumber(data)
+			print("blue: " .. blue)
+			if onoff == "ON" then
+				ledbuffer:fill(green,red,blue)
+				ws2812.write(ledbuffer)
+			end
+		end
+	end)
+	m:connect(mqttserver,1883,0)
 		
 		--Button
 		gpio.mode(3,gpio.INT,gpio.PULLUP)
